@@ -20,7 +20,7 @@ require 'faker'
   s.products.create(name:Faker::Food.dish, price:Faker::Commerce.price(range:5..15), description:Faker::Food.description, category:categoryArr.sample, seller_id: s.id)
   s.products.create(name:Faker::Food.dish, price:Faker::Commerce.price(range:5..15), description:Faker::Food.description, category:categoryArr.sample, seller_id: s.id)
   10.times do 
-    b = Buyer.create(name:Faker::Name.name, max_price:Faker::Commerce.price(range:5..15), desired_category:categoryArr.sample, seller_id:s.id)
+    b = Buyer.create(name:Faker::Name.name, max_price:Faker::Commerce.price(range:6..15), desired_category:categoryArr.sample, seller_id:s.id)
   end
 end
 
