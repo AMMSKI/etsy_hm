@@ -40,6 +40,20 @@ class Product < ApplicationRecord
     select('DISTINCT category')
   end
 
+  def self.prices_by_category
+# SELECT s.id, s.name, p.category, STRING_AGG(CAST(p.price AS varchar),', ' ) AS prices
+# FROM products AS p
+# INNER JOIN sellers AS s ON p.seller_id = s.id 
+# GROUP BY s.name, p.category, s.id
+
+    select("s.id, s.name, p.category, STRING_AGG(CAST(p.price AS varchar),', ' ) AS prices")
+    .from('products AS p')
+    .joins('INNER JOIN sellers AS s ON p.seller_id = s.id ')
+    .group('s.name, p.category, s.id')
+  end
+
+
+
 
 end
 # SELECT  p.name, p.category, p.description, p.seller_id, p.id, p.price, s.name AS seller_name

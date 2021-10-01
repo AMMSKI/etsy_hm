@@ -16,6 +16,10 @@ class Api::ProductsController < ApplicationController
     render json: Product.unique_category
   end
 
+  def category_prices
+    render json: Product.prices_by_category
+  end
+
 
 
 end
