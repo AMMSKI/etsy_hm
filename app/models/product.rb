@@ -36,6 +36,10 @@ class Product < ApplicationRecord
     .order('p.price ASC')
   end
 
+  def self.unique_category
+    select('DISTINCT category')
+  end
+
 
 end
 # SELECT  p.name, p.category, p.description, p.seller_id, p.id, p.price, s.name AS seller_name

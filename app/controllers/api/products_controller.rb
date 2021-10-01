@@ -12,6 +12,10 @@ class Api::ProductsController < ApplicationController
     render json: Product.by_sellers(params[:id])
   end
 
+  def categories
+    render json: Product.unique_category
+  end
+
 
 
 end

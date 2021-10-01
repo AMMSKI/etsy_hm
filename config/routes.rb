@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     get 'things', to: 'things#index'
     get 'products', to: 'products#index'
     get 'products/sellers', to: 'products#sellers'
+    get 'products/categories', to: 'products#categories'
     get 'products/:id', to: 'products#products_by_seller'
     get 'sellers/chart_by_category', to: 'sellers#category_by_seller'
   end

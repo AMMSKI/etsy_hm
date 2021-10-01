@@ -36,6 +36,7 @@ const NavBar = () => {
       <Link to='/categories'><Menu.Item active={location.pathname == "/categories"}>Categories</Menu.Item></Link>
       <Link to='/find'><Menu.Item active={location.pathname == "/find"}>Find Product</Menu.Item></Link>
       <Link to='/chartsByCategory'><Menu.Item active={location.pathname == "/chartsByCategory"}>Charts</Menu.Item></Link>
+      <Link to='/chartsBySeller'><Menu.Item active={location.pathname == "/chartsBySeller"}>More Charts</Menu.Item></Link>
       <Menu.Menu position="right">
         {rightNavItems()}
       </Menu.Menu>
