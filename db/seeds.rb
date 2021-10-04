@@ -14,11 +14,9 @@ require 'faker'
 
 10.times do 
   s = Seller.create(name:Faker::Games::SuperSmashBros.fighter, email:Faker::Internet.email)
+  50.times do
   s.products.create(name:Faker::Food.dish, price:Faker::Commerce.price(range:5..15), description:Faker::Food.description, category:categoryArr.sample, seller_id: s.id)
-  s.products.create(name:Faker::Food.dish, price:Faker::Commerce.price(range:5..15), description:Faker::Food.description, category:categoryArr.sample, seller_id: s.id)
-  s.products.create(name:Faker::Food.dish, price:Faker::Commerce.price(range:5..15), description:Faker::Food.description, category:categoryArr.sample, seller_id: s.id)
-  s.products.create(name:Faker::Food.dish, price:Faker::Commerce.price(range:5..15), description:Faker::Food.description, category:categoryArr.sample, seller_id: s.id)
-  s.products.create(name:Faker::Food.dish, price:Faker::Commerce.price(range:5..15), description:Faker::Food.description, category:categoryArr.sample, seller_id: s.id)
+  end
   10.times do 
     b = Buyer.create(name:Faker::Name.name, max_price:Faker::Commerce.price(range:6..15), desired_category:categoryArr.sample, seller_id:s.id)
   end

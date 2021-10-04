@@ -5,63 +5,84 @@ import axios from 'axios'
 
 const ChartsBySeller = () => {
   const [info, setInfo] = useState([])
+  const [names, setNames] = useState([])
 
   useEffect(()=>{
     getInfo()
   },[])
 
-//   {
-//     "seller_name": "Ice Climbers",
-//     "product_name": "Pierogi",
-//     "price": 8,
-//     "category": "Freeze Dried",
-//     "id": null
-// }
 
   const normalizeChart = (data) => {
+    let cat = data.map((c)=> c.category)
+    let uniqueCat = [... new Set(cat)]
+    return uniqueCat.map((d)=>{
+      let categoryListing = data.filter((c)=> c.category === d)
+      // console.log(categoryListing)
+      let { category } = categoryListing[0]
+      // console.log(category)
+      let prices = []
+      let info = categoryListing.map((c)=>{
+        let seller = c.name
+        prices.push(parseInt(c.prices))
+        let totalPrices = 0
+        for (let i = 0; i < prices.length; i++) {
+          totalPrices += prices[i] 
+        }
+        let average = totalPrices / (prices.length + 1)
+        return {seller, average}
+      })
+      // console.log(info)
+      let normData = {}
+        normData['name'] = category
+      info.map((a)=>{
+        normData[a.seller] = a.average
+      })
+      // console.log(normData)
+      return normData
+    })
+  }
 
-
-
-    //return {name: category, seller1: average, seller2: average}
+  const normalizeNames = (data) => {
+    const names = data.map((d)=> d.name)
+    const uniqueNames = [... new Set(names)]
+    return uniqueNames
   }
 
   const getInfo = async () => {
     try{
       let res = await axios.get('/api/categories/prices')
-      normalizeChart(res.data)
+      setNames(normalizeNames(res.data))
+      console.log(normalizeChart(res.data))
+      setInfo(normalizeChart(res.data))
     }catch(err){
       console.log(err)
     }
   }
-  // const data = [
-  //   {
-  //     name: 'Freeze Dried',
-  //     seller: 4000,
-  //     seller1: 4000,
-  //     seller2: 3000,
-  //   },
-  // ];
 
-
-
-
+  //stroke is the color of the line.. By doing 6 Math.randoms I come up with a random color for each line
+  const renderLines = () => {
+    return names.map((n)=>{
+      return (
+      <Line type="monotone" dataKey={n} stroke={`#${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}`} /> 
+      )
+    })
+  }
+  
+  
+  
   return (
-  //   <LineChart width={730} height={250} data={data}
-  //   margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-  //   <CartesianGrid strokeDasharray="3 3" />
-  //   <XAxis dataKey="name" />
-  //   <YAxis/>
-  //   <Tooltip />
-  //   <Legend />
-  //   <Line type="monotone" dataKey="seller" stroke="#82ca9d" />
-  //   <Line type="monotone" dataKey="seller1" stroke="#82ca9d" />
-  //   <Line type="monotone" dataKey="seller2" stroke="#82ca9d" />
-  //   <Line type="monotone" dataKey="seller3" stroke="#82ca9d" />
-  //   <Line type="monotone" dataKey="seller4" stroke="#82ca9d" />
-  //   <Line type="monotone" dataKey="seller5" stroke="#82ca9d" />
-  //   <Line type="monotone" dataKey="seller6" stroke="#82ca9d" />
-  // </LineChart>
-  <div>hello</div>
+    <div>
+      <h1>Average prices for each Category by Seller:</h1><br/>
+    <LineChart width={730} height={250} data={info}
+    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+    <CartesianGrid strokeDasharray="3 3" />
+    <XAxis dataKey="name" />
+    <YAxis/>
+    <Tooltip />
+    <Legend />
+    {names && renderLines()}
+  </LineChart>
+  </div>
     )
 }
 
